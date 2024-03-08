@@ -1,15 +1,36 @@
 const User = require('../models/user-model');
 const bcrypt = require("bcrypt");
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
 
-const home = async (req,res) => {
+dotenv.config({
+    path: './env'
+});
+
+// Connect to MongoDB Atlas using Mongoose
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+.then(() => {
+    console.log("Connected to MongoDB Atlas");
+})
+.catch((error) => {
+    console.error("Error connecting to MongoDB Atlas:", error);
+    process.exit(1);
+});
+
+const posts = async (req, res) => {
     try {
-        res
-            .status(200)
-            .send("Worked using router");
+        const users = await User.find();
+        console.log(users);
+        return res.json(users); // Send the data as response
     } catch (error) {
-        console.log(error)
+        console.error(error);
+        return res.status(500).json({ error: 'Internal server error' });
     }
-}
+};
+
 
 const register = async (req,res) => {
     try {
@@ -32,45 +53,15 @@ const register = async (req,res) => {
         const UserCreated = await User.create({email,password:hash_pass,name,prof_pic})
         console.log("User created")
 
-        res.status(201).json({message:UserCreated, token: await UserCreated.generateToken(), userId:UserCreated._id.toString()});
+        const token = await UserCreated.generateToken();
+        console.log(token)
+
+        return res.status(201).json({message:UserCreated, token: await UserCreated.generateToken(), userId:UserCreated._id.toString()});
     } catch (error) {
         console.log(error)
     }
 }
 
-const login = async (req,res) =>{
-    try {
-        const {email, password} = req.body;
-
-        const userExist = await User.findOne({email: email});
-        console.log("Entered pass: ",password)
-        console.log("DB pass: ",userExist.password)
-
-        if(!userExist)
-        {
-            return res.status(400).json({message: "Invalid credentials"});
-        }
-
-        const user = await bcrypt.compare(password, userExist.password);
-
-        if(user){
-            res.status(200).json({
-                msg: "Login Successful!",
-                token: await userExist.generateToken(),
-                userId: userExist._id.toString()
-            })
-        }
-        else{
-            res.status(401).json({message: "Invalid email/pass"});
-        }
-
-    } catch (error) {
-        res.status(400).json("Internal server error",error)
-    }
-}
-
-
-
-module.exports = {home,register, login};
+module.exports = {posts,register};
 
 

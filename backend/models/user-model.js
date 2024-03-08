@@ -2,37 +2,35 @@ const mongoose = require("mongoose");
 const jwt = require('jsonwebtoken');
 
 const UserSchema = new mongoose.Schema({
-    email :{
+    email: {
         type: String,
-        require: true
+        required: true
     },
-    password :{
+    password: {
         type: String,
-        require: true
+        required: true
     },
-    name:{
+    name: {
         type: String,
-        require: false
     },
-    prof_pic:{
-        type: String,
-        require: false
+    prof_pic: {
+        data: Buffer,
+        contentType: String,
     }
-})
+});
 
 UserSchema.methods.generateToken = async function() {
     try {
         return jwt.sign({
-            userId:this._id.toString(),
+            userId: this._id.toString(),
             email: this.email.toString(),
             name: this.name.toString()
-            
-        },process.env.JWT_TOK)
+        }, process.env.JWT_TOK);
     } catch (error) {
-        console.error(error)
+        console.error(error);
     }
-}
+};
 
-const User = new mongoose.model("User",UserSchema );
+const User = mongoose.model("User", UserSchema);
 
 module.exports = User;
