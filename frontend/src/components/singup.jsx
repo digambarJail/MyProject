@@ -63,7 +63,7 @@ const Signup = () => {
         <div className="bg-indigo-900 min-h-screen flex justify-center items-center">
             <div className="bg-white p-8 rounded-md shadow-md w-96">
                 <h2 className="text-3xl font-bold text-center mb-6">Sign Up</h2>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} action="/profile" method="post" encType="multipart/form-data">
                     <div className="mb-4">
                         <label htmlFor="email" className="block text-sm font-medium mb-2">
                             Your email<span className="text-red-500"> *</span>

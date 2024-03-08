@@ -11,7 +11,7 @@ const Posts = () => {
             try {
                 const token = localStorage.getItem('token');
                 if (!token) {
-                    throw new Error('No token found');
+                    throw new Error('No token found, Please SignUp');
                 }
 
                 const response = await axios.get('http://localhost:3000/api/auth/posts', {
@@ -92,6 +92,7 @@ const Posts = () => {
                     pagination
                     customStyles={customStyles}
                     paginationPerPage={10}
+                    paginationRowsPerPageOptions={[10, 25, 50, 100]} 
                 />
             )}
         </div>
