@@ -1,3 +1,4 @@
+// Schema definition for signup
 const mongoose = require("mongoose");
 const jwt = require('jsonwebtoken');
 
@@ -14,11 +15,11 @@ const UserSchema = new mongoose.Schema({
         type: String,
     },
     prof_pic: {
-        data: Buffer,
-        contentType: String,
+        type: String,
     }
 });
 
+// Token generation
 UserSchema.methods.generateToken = async function() {
     try {
         return jwt.sign({

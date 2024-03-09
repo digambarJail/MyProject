@@ -1,3 +1,5 @@
+// Authentication for /posts endpoints
+
 const jwt = require("jsonwebtoken");
 const User = require("../models/user-model");
 
@@ -12,7 +14,7 @@ const authMiddleware = async (req,res,next) =>{
     }
 
     const jwtToken = token.replace("Bearer ","").trim();
-    console.log("TOken from auth middleware", jwtToken);
+    console.log("Token from auth middleware", jwtToken);
 
     try {
 
@@ -30,8 +32,6 @@ const authMiddleware = async (req,res,next) =>{
     } catch (error) {
         return res.status(401).json({message:"Unauthorized invalid token"}, error);
     }
-
-    // next();
 }
 
 module.exports = authMiddleware;

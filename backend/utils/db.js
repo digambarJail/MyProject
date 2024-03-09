@@ -1,18 +1,17 @@
+// Connecting to MONGODB Atlas
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
 dotenv.config({
     path: './env'
 })
-// const URI = "mongodb://127.0.0.1:27017/mern";
-// const URI = process.env.MONGODB_URI;
 
 const connectDB = async () => {
     try {
         const connectionInstance = await mongoose.connect(`${process.env.MONGODB_URI}`);
-        console.log("COnecction SUccessful")
+        console.log("Connection Successful!")
     } catch (error) {
-        console.log("DB COnnecttion failed",error)
+        console.log("DB Connection failed",error)
         process.exit(1);
     }
 }

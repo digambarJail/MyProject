@@ -1,3 +1,4 @@
+// Validating the user response
 const validate = (schema) => async(req,res,next) =>{
     try {
         console.log("In validate-middleware try block")

@@ -1,3 +1,5 @@
+// Main server file
+
 require("dotenv").config();
 const express = require("express");
 const app = express();
@@ -6,6 +8,8 @@ const connectDB = require("./utils/db");
 const cors = require('cors');
 
 const corsOptions = {
+
+    // Cors options set for frontend
     origin: "http://localhost:5173",
     methods: "GET,POST, PUT, PATCH, DELETE, ADD",
     credentials: true,

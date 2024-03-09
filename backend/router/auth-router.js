@@ -1,18 +1,18 @@
+// Routing implemented
+
 const express = require("express");
-
-const app = express()
-
 const router = express.Router();
-const authController = require("../controllers/auth-controller");
+const { posts, register, upload } = require("../controllers/auth-controller");
 const authMiddleware = require("../middlewares/auth-middleware");
 const validate = require('../middlewares/validate-middleware');
 const signupSchema = require("../validators/auth-validator");
 
 router
-    .route("/posts").get(authMiddleware, authController.posts);
+    .route("/posts")
+    .get(authMiddleware, posts);
 
 router
     .route("/register")
-    .post(validate(signupSchema),authController.register);
+    .post(upload.single('prof_pic'), validate(signupSchema), register);
 
 module.exports = router;

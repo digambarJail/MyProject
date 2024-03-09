@@ -1,3 +1,5 @@
+// Posts page, representing the data using DataTable
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import DataTable from "react-data-table-component";
@@ -6,6 +8,7 @@ const Posts = () => {
     const [data, setData] = useState([]);
     const [error, setError] = useState(null);
 
+    // useEffect hook for fetching the data
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -35,6 +38,7 @@ const Posts = () => {
         fetchData();
     }, []);
 
+    // Adding style to the table
     const customStyles = {
         headCells: {
             style: {
@@ -57,6 +61,7 @@ const Posts = () => {
         },
     };
 
+    // Setting the columns
     const columns = [
         {
             name: 'Sr. No.',
